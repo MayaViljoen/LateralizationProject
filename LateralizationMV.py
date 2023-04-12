@@ -18,10 +18,22 @@ import pygame
 import random
 from expyriment import design, control, stimuli, misc
 
-N_TRIALS = 60
-MIN_WAIT_TIME = 2000
-MAX_WAIT_TIME = 3000
-MAX_RESPONSE_DELAY = 2000
+N_TRIALS = 60 # 6 times this in original paper 
+MIN_WAIT_TIME = 2000 # as per original paper 
+MAX_WAIT_TIME = 3000# as per original paper 
+MAX_RESPONSE_DELAY = 2000 # TBC
+
+GREY = (80, 80, 80)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+
+
+#CUE_DISPLAY_DURATION = 100  # 100 in hte original paper
+#CUE_TARGET_INTERVAL = 400  # 0, 400 or 800 in the original paper
+TARGET_DISPLAY_DURATION = 35  #35 MS in the original paper
+#MAX_RESPONSE_DURATION = 1700
 
 
 LEFT_RESPONSE_KEY = misc.constants.K_f
@@ -48,14 +60,38 @@ Place your index finger on the keys '{LEFT_RESPONSE_KEY_CHAR}' (left) et '{RIGHT
    """, text_size=20)
 
 
+##### target trials 
 
+# find a way to incorporate these in, with the a=tanalpha , 1140px=30cm(or size of screen)- corresponding to 
+
+## create exel of the conditions - csv 
+five_nasal = stimuli.Circle(radius=2, colour=BLACK, line_width=4, position=(0, 0)) 
+twenty_nasal = stimuli.Circle(radius=2, colour=BLACK, line_width=3, position=(0, 5))
+thirtyfive_nasal = stimuli.Circle(radius=2, colour=BLACK, line_width=3, position=(0, 60))
+five_temporal = stimuli.Circle(radius=2, xcolour=GREEN, line_width=3, position=(0, 20))
+twenty_temporal = stimuli.Circle(radius=2, colour=GREEN, line_width=3, position=(0, 30))
+thirtyfive_temporal = stimuli.Circle(radius=2, colour=GREEN, line_width=3, position=(0, 50)) 
+
+five_nasal.preload()
+twenty_nasal.preload()
+thirtyfive_nasal.preload()
+five_temporal.preload()
+twenty_temporal.preload()
+thirtyfive_temporal.preload()
+
+MYSTIMULI = dict( fiveleft=five_nasal, 
+                       twentyleft=twenty_nasal, 
+                       thirtyfiveleft=thirtyfive_nasal, fiveright=five_temporal, 
+                       twentyright=twenty_temporal, 
+                       thirtyfiveright=thirtyfive_nasal)
 
 
 exp.add_data_variable_names(['trial', 'wait', 'respkey', 'RT'])
 
+########################################
 control.start(skip_ready_screen=True)
 instructions.present()
-exp.keyboard.wait()
+exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
 
 for i_trial in range(N_TRIALS):
     blankscreen.present()
