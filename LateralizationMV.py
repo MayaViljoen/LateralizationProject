@@ -32,7 +32,7 @@ RED = (255, 0, 0)
 
 #CUE_DISPLAY_DURATION = 100  # 100 in hte original paper
 #CUE_TARGET_INTERVAL = 400  # 0, 400 or 800 in the original paper
-TARGET_DISPLAY_DURATION = 35  #35 MS in the original paper
+TARGET_DISPLAY_DURATION = 100  #35 MS in the original paper
 #MAX_RESPONSE_DURATION = 1700
 
 
@@ -42,7 +42,7 @@ RIGHT_RESPONSE_KEY = misc.constants.K_j
 RIGHT_RESPONSE_KEY_CHAR = 'J'
 
 exp = design.Experiment(name="Contra & Inspilateral Reaction Times", text_size=40)
-#control.set_develop_mode(on=True)
+control.set_develop_mode(on=True)
 control.initialize(exp)
 
 target = stimuli.FixCross(size=(50, 50), line_width=4)
@@ -60,17 +60,28 @@ Place your index finger on the keys '{LEFT_RESPONSE_KEY_CHAR}' (left) et '{RIGHT
    """, text_size=20)
 
 
+
+# practise trials : 5 with both hands in the stimulus position
+i=0
+while i<5:
+
+    #for i in stimulus : flash one stimulus, allow for both responses 
+# stimulus randomised both hands , LHS vs RHS 
+
+    i+=1
+
+
 ##### target trials 
 
 # find a way to incorporate these in, with the a=tanalpha , 1140px=30cm(or size of screen)- corresponding to 
 
-## create exel of the conditions - csv 
-five_nasal = stimuli.Circle(radius=2, colour=BLACK, line_width=4, position=(0, 0)) 
-twenty_nasal = stimuli.Circle(radius=2, colour=BLACK, line_width=3, position=(0, 5))
-thirtyfive_nasal = stimuli.Circle(radius=2, colour=BLACK, line_width=3, position=(0, 60))
-five_temporal = stimuli.Circle(radius=2, xcolour=GREEN, line_width=3, position=(0, 20))
-twenty_temporal = stimuli.Circle(radius=2, colour=GREEN, line_width=3, position=(0, 30))
-thirtyfive_temporal = stimuli.Circle(radius=2, colour=GREEN, line_width=3, position=(0, 50)) 
+
+five_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=4, position=(-5, 60)) 
+twenty_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(20, 60))
+thirtyfive_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(-35, 60))
+five_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(5, 60))
+twenty_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(20, 60))
+thirtyfive_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(35, 60)) 
 
 five_nasal.preload()
 twenty_nasal.preload()
@@ -79,26 +90,37 @@ five_temporal.preload()
 twenty_temporal.preload()
 thirtyfive_temporal.preload()
 
-MYSTIMULI = dict( fiveleft=five_nasal, 
-                       twentyleft=twenty_nasal, 
-                       thirtyfiveleft=thirtyfive_nasal, fiveright=five_temporal, 
-                       twentyright=twenty_temporal, 
-                       thirtyfiveright=thirtyfive_nasal)
+nasal_block = [five_nasal, twenty_nasal, thirtyfive_nasal] * 5
+temporal_block = [five_temporal, twenty_temporal, thirtyfive_temporal] * 5
+
+random.shuffle(nasal_block)
+random.shuffle(temporal_block)
+
+# #MYSTIMULI = dict( fiveleft=five_nasal, 
+#                        twentyleft=twenty_nasal, 
+#                        thirtyfiveleft=thirtyfive_nasal, fiveright=five_temporal, 
+#                        twentyright=twenty_temporal, 
+#                        thirtyfiveright=thirtyfive_nasal)
 
 
 exp.add_data_variable_names(['trial', 'wait', 'respkey', 'RT'])
 
 ########################################
 control.start(skip_ready_screen=True)
-instructions.present()
-exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
+#instructions.present()
+#exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
 
-for i_trial in range(N_TRIALS):
+for stim in nasal_block:
     blankscreen.present()
     waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
     exp.clock.wait(waiting_time)
-    target.present()
+    print(stim)
+    stim.present()
+    exp.clock.wait(TARGET_DISPLAY_DURATION)
+    #blankscreen.present()
     key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DELAY)
-    exp.data.add([i_trial, waiting_time, key, rt])
+    exp.data.add([ waiting_time, key, rt])
+
+    #tbc - record lhs vs rhs + stimuli , reaction time 
 
 control.end()
