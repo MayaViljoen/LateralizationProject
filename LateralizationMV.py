@@ -42,10 +42,19 @@ RIGHT_RESPONSE_KEY = misc.constants.K_j
 RIGHT_RESPONSE_KEY_CHAR = 'J'
 
 exp = design.Experiment(name="Contra & Inspilateral Reaction Times", text_size=40)
+
+
 control.set_develop_mode(on=True)
 control.initialize(exp)
 
-target = stimuli.FixCross(size=(50, 50), line_width=4)
+print(exp.screen.window_size)
+
+cross_white = stimuli.FixCross(size=(20, 20), colour=WHITE, line_width=4)
+
+
+
+ 
+
 blankscreen = stimuli.BlankScreen()
 
 instructions = stimuli.TextScreen("Instructions",
@@ -60,6 +69,18 @@ Place your index finger on the keys '{LEFT_RESPONSE_KEY_CHAR}' (left) et '{RIGHT
    """, text_size=20)
 
 
+LHShandinstructions = stimuli.TextScreen("Hand Instructions",
+    f""" For this block please use your LHS and place your index finger on  '{LEFT_RESPONSE_KEY_CHAR}'. Press Space button to proceed. 
+    
+   
+   """, text_size=20)
+
+
+RHShandinstructions = stimuli.TextScreen("Hand Instructions",
+    f""" For this block please use your RHS and place your index finger on '{RIGHT_RESPONSE_KEY_CHAR}'. Press Space button to proceed. 
+    
+   
+   """, text_size=20)
 
 # practise trials : 5 with both hands in the stimulus position
 i=0
@@ -76,12 +97,12 @@ while i<5:
 # find a way to incorporate these in, with the a=tanalpha , 1140px=30cm(or size of screen)- corresponding to 
 
 
-five_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=4, position=(-5, 60)) 
-twenty_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(20, 60))
-thirtyfive_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(-35, 60))
-five_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(5, 60))
-twenty_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(20, 60))
-thirtyfive_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(35, 60)) 
+five_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=4, position=(-17.5, 250)) 
+twenty_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(-72.79, 250))
+thirtyfive_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(-140, 250))
+five_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(17.5, 250))
+twenty_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(72.79, 250))
+thirtyfive_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(140, 250)) 
 
 five_nasal.preload()
 twenty_nasal.preload()
@@ -107,20 +128,101 @@ exp.add_data_variable_names(['trial', 'wait', 'respkey', 'RT'])
 
 ########################################
 control.start(skip_ready_screen=True)
-#instructions.present()
-#exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
+instructions.present()
+exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
 
-for stim in nasal_block:
-    blankscreen.present()
-    waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
-    exp.clock.wait(waiting_time)
-    print(stim)
-    stim.present()
-    exp.clock.wait(TARGET_DISPLAY_DURATION)
-    #blankscreen.present()
-    key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DELAY)
-    exp.data.add([ waiting_time, key, rt])
 
-    #tbc - record lhs vs rhs + stimuli , reaction time 
+#************NASAL PART********************
+
+for i in range(4):
+
+    if i ==0 or i==4:
+
+        LHShandinstructions.present()
+        exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
+
+        for stim in nasal_block:
+            blankscreen.present()
+            cross_white.present()
+            waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
+            exp.clock.wait(waiting_time)
+            print(stim)
+            stim.present()
+            exp.clock.wait(TARGET_DISPLAY_DURATION)
+            #blankscreen.present()
+            key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DELAY)
+            exp.data.add([ waiting_time, key, rt])
+
+            #tbc - record lhs vs rhs + stimuli , reaction time 
+
+    else:
+        RHShandinstructions.present()
+        exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
+        for stim in nasal_block:
+
+            RHShandinstructions.present()
+            blankscreen.present()
+            cross_white.present()
+
+            waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
+            exp.clock.wait(waiting_time)
+            print(stim)
+            stim.present()
+            exp.clock.wait(TARGET_DISPLAY_DURATION)
+            #blankscreen.present()
+            key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DELAY)
+            exp.data.add([ waiting_time, key, rt])
+ 
+
+
+#************TEMPORAL PART********************
+for i in range(4):
+
+    if i ==0 or i==4:
+
+        LHShandinstructions.present()
+        exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
+
+        for stim in temporal_block:
+
+            cross_white.present()
+
+            blankscreen.present()
+            waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
+            exp.clock.wait(waiting_time)
+            print(stim)
+            stim.present()
+            exp.clock.wait(TARGET_DISPLAY_DURATION)
+            #blankscreen.present()
+            key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DELAY)
+            exp.data.add([ waiting_time, key, rt])
+
+            # ONE HAND  
+        
+    else:
+         
+
+
+        RHShandinstructions.present()
+        exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
+
+        for stim in temporal_block:
+
+            cross_white.present()
+
+            blankscreen.present()
+            waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
+            exp.clock.wait(waiting_time)
+            print(stim)
+            stim.present()
+            exp.clock.wait(TARGET_DISPLAY_DURATION)
+            #blankscreen.present()
+            key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DELAY)
+            exp.data.add([ waiting_time, key, rt])
+
+            # OTHER HAND - HOW DO I RANDOMIZE?
+
+
+
 
 control.end()
