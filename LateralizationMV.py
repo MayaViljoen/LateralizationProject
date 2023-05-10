@@ -10,7 +10,7 @@ This experiment is to be done in the lab, with the position of the head held con
 Note: The left eye is to be completely occluded with a special mask
 """
 
-
+import math
 import pandas as pd
 import argparse
 import pygame 
@@ -23,11 +23,9 @@ MIN_WAIT_TIME = 2000 # as per original paper
 MAX_WAIT_TIME = 3000# as per original paper 
 MAX_RESPONSE_DELAY = 2000 # TBC
 
-GREY = (80, 80, 80)
-BLACK = (0, 0, 0)
+ 
 WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
+ 
 
 
 #CUE_DISPLAY_DURATION = 100  # 100 in hte original paper
@@ -52,9 +50,44 @@ print(exp.screen.window_size)
 cross_white = stimuli.FixCross(size=(20, 20), colour=WHITE, line_width=4)
 
 
+#Computer Dimensions : 34cm (1440 x 900) 
+# 34:1440 --> 1:42.35
+
+horiz_screen_dim = 34
+horiz_sreen_res=exp.screen.window_size[0]
+cm_to_pix = horiz_sreen_res/horiz_screen_dim
+
+# 30 centimentres from screen 
+
+def deg_to_rad(x):
+    return (x/180)*math.pi
+
+
+
+
+#*****Temporal Degrees******
+fivedeg_T =30*math.tan(deg_to_rad(5))*cm_to_pix
+
+twedeg_T = 30*math.tan(deg_to_rad(15))*cm_to_pix
+ 
+thfivdeg_T = 30*math.tan(deg_to_rad(20))*cm_to_pix
+
+#*****Nasal Degrees******
+
+fivedeg_N =-fivedeg_T
+
+twedeg_N = -twedeg_T
+ 
+thfivdeg_N =-thfivdeg_T
+
+#***************************
+print(fivedeg_T)
+print(twedeg_T)
+print(thfivdeg_T)
+
+#***************************
 
  
-
 blankscreen = stimuli.BlankScreen()
 
 instructions = stimuli.TextScreen("Instructions",
@@ -63,6 +96,7 @@ Your task will be to respond as soon as you see the stimulus by pressing the ind
 Very important:
 1: You must stay fixated on the central cross and not move your right eye. 
 2. You must respond quickly while avoiding errors. However, these are almost inevitable. If you do, don't get distracted, and focus on the next try. Dont respond before seeing stimulus 
+3. Position yourself 60cm from your screen. 
 Place your index finger on the keys '{LEFT_RESPONSE_KEY_CHAR}' (left) et '{RIGHT_RESPONSE_KEY_CHAR}' (right) then press your finger on the space button to start,
     
     There will be {N_TRIALS} trials in total.
@@ -82,27 +116,21 @@ RHShandinstructions = stimuli.TextScreen("Hand Instructions",
    
    """, text_size=20)
 
-# practise trials : 5 with both hands in the stimulus position
-i=0
-while i<5:
-
-    #for i in stimulus : flash one stimulus, allow for both responses 
-# stimulus randomised both hands , LHS vs RHS 
-
-    i+=1
+ 
+# target trials : 3 temporal, 3 nasal
 
 
-##### target trials 
 
-# find a way to incorporate these in, with the a=tanalpha , 1140px=30cm(or size of screen)- corresponding to 
+five_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(fivedeg_N, 0))
+twenty_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(twedeg_N, 0))
+thirtyfive_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(thfivdeg_N, 0)) 
 
 
-five_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=4, position=(-17.5, 250)) 
-twenty_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(-72.79, 250))
-thirtyfive_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(-140, 250))
-five_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(17.5, 250))
-twenty_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(72.79, 250))
-thirtyfive_temporal = stimuli.Circle(radius=10, colour=GREEN, line_width=3, position=(140, 250)) 
+five_temporal = stimuli.Circle(radius=10, colour=WHITE, line_width=4, position=(fivedeg_T, 0)) 
+twenty_temporal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(twedeg_T, 0))
+thirtyfive_temporal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(thfivdeg_T, 0))
+
+# Load Target Trials
 
 five_nasal.preload()
 twenty_nasal.preload()
@@ -111,17 +139,13 @@ five_temporal.preload()
 twenty_temporal.preload()
 thirtyfive_temporal.preload()
 
+#Creation of traials for experimental blocks
+
 nasal_block = [five_nasal, twenty_nasal, thirtyfive_nasal] * 5
 temporal_block = [five_temporal, twenty_temporal, thirtyfive_temporal] * 5
 
 random.shuffle(nasal_block)
 random.shuffle(temporal_block)
-
-# #MYSTIMULI = dict( fiveleft=five_nasal, 
-#                        twentyleft=twenty_nasal, 
-#                        thirtyfiveleft=thirtyfive_nasal, fiveright=five_temporal, 
-#                        twentyright=twenty_temporal, 
-#                        thirtyfiveright=thirtyfive_nasal)
 
 
 exp.add_data_variable_names(['trial', 'wait', 'respkey', 'RT'])
@@ -158,9 +182,11 @@ for i in range(4):
     else:
         RHShandinstructions.present()
         exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
+
+
         for stim in nasal_block:
 
-            RHShandinstructions.present()
+            
             blankscreen.present()
             cross_white.present()
 
@@ -184,10 +210,8 @@ for i in range(4):
         exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
 
         for stim in temporal_block:
-
-            cross_white.present()
-
             blankscreen.present()
+            cross_white.present()
             waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
             exp.clock.wait(waiting_time)
             print(stim)
@@ -201,16 +225,13 @@ for i in range(4):
         
     else:
          
-
-
         RHShandinstructions.present()
         exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
 
         for stim in temporal_block:
-
-            cross_white.present()
-
+            
             blankscreen.present()
+            cross_white.present()
             waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
             exp.clock.wait(waiting_time)
             print(stim)
