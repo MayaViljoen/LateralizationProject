@@ -1,6 +1,8 @@
 # LateralizationProject
 ## Simple Reaction Times of Ipsilateral and Contralateral Hand to Lateralized Visual Stimuli 
 
+## Experimental design and idea taken from Berlucchi et al. - 1971 - SIMPLE REACTION TIMES OF IPSILATERAL AND CONTRALATERAL
+
 **Description:**
 
 Experimental test analyzing the neural circuits underlying a simple visuomotor task, by measuring the reaction time of each hand when restricted visual stimuli were presented on one side of the fixation point or the other  
@@ -15,11 +17,13 @@ The delay of the cross and uncrossed responses remains constant regardless of th
 * **Participant instruction:**  Position of the head held constant, fixated on small patch 
 * Fixation cross in centre
 * Translucent hemispheric dome, 1 m in diameter
-* **Conditions:** Distance between right eye and any point on the hemisphere 50cm (left eye occluded with special mask)
-* (Hemispheric screen was diffusely illuminated by an overhead light source who’s intensity, measured at the screen was 20 lux )
+* **Conditions:** Distance between right eye and any point on the hemisphere 30cm (left eye occluded with special mask)
+* (Hemispheric screen was diffusely illuminated by an overhead light source who’s intensity, measured at the screen was 20 lux ) - this is ignored for the sake of this project
 
 
 **Stimulus :** a square patch of light one square degree in area, flashed on different points of the screen from the rear
+
+* This project displays a circle stimuli 
 
 **Duration of flash**: 32 MSEC, (the intensity is 0.12 log units brighter than the background & its rise and fall times were shorter than one msec)
 
@@ -50,21 +54,16 @@ Reaction times recorded to the nearest millisecond
 
 In each part:  4 blocks of 15 trials were run with the stimulus on one side of the fixation point and then another four blocks were run with the stimulus at the same visual angle on the other side (5 degrees temporal, 5 degrees nasal )
 
+* For the sake of brevity, this experiment will do 4 blocks of 9 trials, marker can also manipulate the variables 
 
-* The first and Fourth blocks of 15 trials were done with one hand 
+* The first and Fourth blocks of 15 (9 in our case) trials were done with one hand 
 
 * The second and third blocks with the other
-
-## Randomized
-
-Whether the stimulus would appear in the right or left field, whether the right or left hand would be used first was decided on a random basis for each part of the session
-
-The order in which the three parts of each session would follow each other was also randomly selected for each subject with the restriction that over the three sessions, the three positions of the stimulus patterns (2,30,35) would constitute a latin square 
 
 
 **Number of Trials** 
 
-Any given session involved 360 trials altogether, consisting of 60 trials with each of the six retinal points tested. 
+Any given session involved 360 (216) trials altogether, consisting of 60 (36) trials with each of the six retinal points tested. 
 Half of these trials were with the right hand,
 Half with the left hand 
 
