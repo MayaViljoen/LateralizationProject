@@ -1,7 +1,7 @@
 # LateralizationProject
 ## Simple Reaction Times of Ipsilateral and Contralateral Hand to Lateralized Visual Stimuli 
+**Experimental design and idea taken from Berlucchi et al. - 1971 - SIMPLE REACTION TIMES OF IPSILATERAL AND CONTRALATERAL**
 
-## Experimental design and idea taken from Berlucchi et al. - 1971 - SIMPLE REACTION TIMES OF IPSILATERAL AND CONTRALATERAL
 
 **Description:**
 

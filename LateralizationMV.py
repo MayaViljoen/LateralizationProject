@@ -170,84 +170,64 @@ exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
 
 
 
-#***************PRACTISE***************************
+#***************Function***************************
 
 
-def practise(block_condition):
-    PRACTICE_instructions.present()
-    for stim in practise_block:
+def target_stimuli(block_condition, instructions):
 
-                blankscreen.present()
-                cross_white.present()
-                waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
-                exp.clock.wait(waiting_time)
-                print(stim)
-                stim.present()
-                exp.clock.wait(TARGET_DISPLAY_DURATION)
-                #blankscreen.present()
-                key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DELAY)
-                exp.data.add([ waiting_time, key, rt])
+    instructions.present()
 
+    exp.keyboard.wait(keys=[ misc.constants.K_SPACE])
 
-#***************Test trial***************************
+    for stim in block_condition:
 
+        blankscreen.present()
+        cross_white.present()
+        waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
+        exp.clock.wait(waiting_time)
+        print(stim)
+        stim.present()
+        exp.clock.wait(TARGET_DISPLAY_DURATION)
+        #blankscreen.present()
+        key, rt = exp.keyboard.wait(keys = [misc.constants.K_f, misc.constants.K_j], duration=MAX_RESPONSE_DELAY)
+        exp.data.add([ waiting_time, key, rt])
 
-
-
-def target_stimuli(block_condition):
-    instructions_test.present()
-
-    for i in range(4):
-        if i ==0 or i==4:
-            LHShandinstructions.present()
-            exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
-
-            for stim in block_condition:
-
-                blankscreen.present()
-                cross_white.present()
-                waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
-                exp.clock.wait(waiting_time)
-
-                print(stim)
-                stim.present()
-                exp.clock.wait(TARGET_DISPLAY_DURATION)
-                #blankscreen.present()
-                key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DELAY)
-                exp.data.add([ waiting_time, key, rt])
-
-                #tbc - record lhs vs rhs + stimuli , reaction time 
-        else:
-            RHShandinstructions.present()
-            exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
-
-            for stim in block_condition:
-
-
-                blankscreen.present()
-                cross_white.present()
-
-                waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
-                exp.clock.wait(waiting_time)
-                print(stim)
-                stim.present()
-                exp.clock.wait(TARGET_DISPLAY_DURATION)
-                #blankscreen.present()
-                key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DELAY)
-                exp.data.add([ waiting_time, key, rt])
+       
      
 #***************PRACTISE PART************** 
 
+target_stimuli(practise_block, PRACTICE_instructions)
 
-practise(practise_block)
+#***************LHS & NASAL***************
 
+target_stimuli(nasal_block, LHShandinstructions)
 
-#************NASAL PART********************
+#***************RHS & NASAL***************
 
-target_stimuli(nasal_block )
+target_stimuli(nasal_block, RHShandinstructions)
 
-#************TEMPORAL PART********************
-target_stimuli(temporal_block)
+#**************RHS & NASAL***************
+
+target_stimuli(nasal_block, RHShandinstructions)
+
+#***************LHS & NASAL***************
+
+target_stimuli(nasal_block, LHShandinstructions)
+
+#***************LHS &  TEMPORAL***************
+
+target_stimuli(temporal_block, LHShandinstructions)
+
+#***************RHS & TEMORAL***************  
+target_stimuli(temporal_block, RHShandinstructions)
+
+#***************RHS & TEMORAL***************  
+target_stimuli(temporal_block, RHShandinstructions)
+
+#***************LHS &  TEMPORAL***************
+
+target_stimuli(temporal_block, LHShandinstructions)
+
 
 
 
