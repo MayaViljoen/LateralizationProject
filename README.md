@@ -21,13 +21,12 @@ The delay of the cross and uncrossed responses remains constant regardless of th
 * (Hemispheric screen was diffusely illuminated by an overhead light source who’s intensity, measured at the screen was 20 lux ) - this is ignored for the sake of this project
 
 
-**Stimulus :** a square patch of light one square degree in area, flashed on different points of the screen from the rear
+**Stimulus :** a square patch of light one square degree in area, flashed on different points of the screen from the rear  
 
 * This project displays a circle stimuli 
 
-**Duration of flash**: 32 MSEC, (the intensity is 0.12 log units brighter than the background & its rise and fall times were shorter than one msec)
+**Duration of flash**: 32 MSEC
 
-**Warning Signal:** A warning ready signal, delivered to the subject via an intercommunication system preceded the stimulus (could be visual/audio) 
 
 **Duration of the fore-period:**  Randomly varied with a range of 2 to 3 sec
 
@@ -40,9 +39,8 @@ The left hand switch
 Reaction times recorded to the nearest millisecond 
 
 
-## Experimental sessions 
-
-* 3 experimental sessions, intersession period a week:
+## Experimental sessions : in paper 3 experimental sessions, intersession period a week:
+** This project will code for one session as follows:**
 **In each session:** 
 * The stimulus pattern is presented in succession to six retinal points, all lying on the horizontal meridian: 
 
@@ -52,18 +50,27 @@ Reaction times recorded to the nearest millisecond
 
 	* A session is divided into 3 parts :
 
-In each part:  4 blocks of 15 trials were run with the stimulus on one side of the fixation point and then another four blocks were run with the stimulus at the same visual angle on the other side (5 degrees temporal, 5 degrees nasal )
+## There are four blocks with 9 trials per block. 
 
-* For the sake of brevity, this experiment will do 4 blocks of 9 trials, marker can also manipulate the variables 
+ ## Temporal
+   * LHS and Temporal
+   * RHS and Temporal
+   * RHS and Temporal
+   * LHS and Temporal
 
-* The first and Fourth blocks of 15 (9 in our case) trials were done with one hand 
+## Nasal
 
-* The second and third blocks with the other
+   * LHS and Nasal
+   * RHS and Nasal
+   * RHS and Nasal
+   * LHS and Nasal
+4 blocks of 9 trials were run with the stimulus on one side of the fixation point and then another four blocks were run with the stimulus at the same visual angle on the other side (5 degrees temporal, 5 degrees nasal )
+
 
 
 **Number of Trials** 
 
-Any given session involved 360 (216) trials altogether, consisting of 60 (36) trials with each of the six retinal points tested. 
+Any given session involved 360 (216) trials altogether, consisting of 72 trials with each of the six retinal points tested. 
 Half of these trials were with the right hand,
 Half with the left hand 
 
@@ -73,7 +80,6 @@ Before these experimental trials there were another five practice trials with bo
 ## Additional method points
 
 
-**Anticipatory Response or Delayed response:** Response discarded + subject is given another trial 
 
 * Anticipatory responses: any reaction time less than 180, 190, 200 sec, for the retinal positions of 5,20, 35 degrees respectively, 
 
@@ -84,6 +90,7 @@ Within each session, the average reaction time for each hand for each position o
 
 
 ## Groups of Reaction Times 
+
 Four groups of reaction time measures were thus obtained for any given position of the visual stimulus :
 **Uncrossed reactions**
 right hand and right field & left hand and left field 
