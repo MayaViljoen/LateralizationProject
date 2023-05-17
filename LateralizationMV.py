@@ -25,13 +25,9 @@ MAX_RESPONSE_DELAY = 1700 # TBC
 
 WHITE = (255, 255, 255)
  
-
-
-#CUE_DISPLAY_DURATION = 100  # 100 in hte original paper
-#CUE_TARGET_INTERVAL = 400  # 0, 400 or 800 in the original paper
+ 
 TARGET_DISPLAY_DURATION = 350  #35 MS in the original paper
-#MAX_RESPONSE_DURATION = 1700
-
+ 
 
 LEFT_RESPONSE_KEY = misc.constants.K_f
 LEFT_RESPONSE_KEY_CHAR = 'F'
@@ -61,7 +57,7 @@ cm_to_pix = horiz_sreen_res/horiz_screen_dim
 def deg_to_rad(x):
     return (x/180)*math.pi
 
-
+ 
 
 
 #*****Temporal Degrees******
@@ -105,8 +101,15 @@ Place your index finger on the keys '{LEFT_RESPONSE_KEY_CHAR}' (left) et '{RIGHT
    """, text_size=20)
 
 
+
 PRACTICE_instructions = stimuli.TextScreen("Practise Instructions",
-    f""" For this block please use the indicated hand, placing your index finger on  '{LEFT_RESPONSE_KEY_CHAR}' for the LHS and on  '{RIGHT_RESPONSE_KEY_CHAR}' for the RHS. Press Space button to proceed. 
+    f""" For this block please use the indicated hand, pressing  '{LEFT_RESPONSE_KEY_CHAR}' for the LHS stimuli  and   '{RIGHT_RESPONSE_KEY_CHAR}' for the RHS stimuli . Press Space button to proceed. 
+    
+   
+   """, text_size=20)
+
+instructions_test =stimuli.TextScreen("Test Instructions",
+    f""" This is the test trial: For this block please use the indicated hand, placing your index finger on  '{LEFT_RESPONSE_KEY_CHAR}' for the LHS and on  '{RIGHT_RESPONSE_KEY_CHAR}' for the RHS. Press Space button to proceed. 
     
    
    """, text_size=20)
@@ -125,8 +128,7 @@ RHShandinstructions = stimuli.TextScreen("Hand Instructions",
    """, text_size=20)
 
  
-# target trials : 3 temporal, 3 nasal
-
+#***************************stimuli : 3 temporal, 3 nasal***************************
 
 
 five_nasal = stimuli.Circle(radius=10, colour=WHITE, line_width=3, position=(fivedeg_N, 0))
@@ -147,19 +149,17 @@ five_temporal.preload()
 fifteen_temporal.preload()
 twenty_temporal.preload()
 
-#Creation of traials for experimental blocks
+#***************************Creation of trials for experimental blocks***************************
 
 nasal_block = [five_nasal, fifteen_nasal, twenty_nasal] * 3
 temporal_block = [five_temporal, fifteen_temporal, twenty_temporal] * 3
 
 
-
 random.shuffle(nasal_block)
 random.shuffle(temporal_block)
 
-practise_block=[nasal_block, temporal_block]
-
-practise_block_inst = [LHShandinstructions, RHShandinstructions]
+practise_block=[five_nasal, fifteen_nasal, twenty_nasal, five_temporal, fifteen_temporal, twenty_temporal]
+random.shuffle(practise_block)
 
 exp.add_data_variable_names(['trial', 'wait', 'respkey', 'RT'])
 
@@ -172,27 +172,30 @@ exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
 
 #***************PRACTISE***************************
 
-# PRACTICE_instructions.present()
-# exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
-# p=0
-# for stim in practise_block:
-# #....non random
-#     while p<5:
-#         random.shuffle(practise_block_inst)
-#         practise_block_inst[0].present()
-#         blankscreen.present()
-#         cross_white.present()
-#         waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
-#         exp.clock.wait(waiting_time)
-#         print(stim)
-#         stim.present()
-#         exp.clock.wait(TARGET_DISPLAY_DURATION)
-#             #blankscreen.present()
-#         p+=1
-#         key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DELAY)
+
+def practise(block_condition):
+    PRACTICE_instructions.present()
+    for stim in practise_block:
+
+                blankscreen.present()
+                cross_white.present()
+                waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
+                exp.clock.wait(waiting_time)
+                print(stim)
+                stim.present()
+                exp.clock.wait(TARGET_DISPLAY_DURATION)
+                #blankscreen.present()
+                key, rt = exp.keyboard.wait(duration=MAX_RESPONSE_DELAY)
+                exp.data.add([ waiting_time, key, rt])
+
+
+#***************Test trial***************************
+
+
 
 
 def target_stimuli(block_condition):
+    instructions_test.present()
 
     for i in range(4):
         if i ==0 or i==4:
@@ -205,6 +208,7 @@ def target_stimuli(block_condition):
                 cross_white.present()
                 waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
                 exp.clock.wait(waiting_time)
+
                 print(stim)
                 stim.present()
                 exp.clock.wait(TARGET_DISPLAY_DURATION)
@@ -235,13 +239,12 @@ def target_stimuli(block_condition):
 #***************PRACTISE PART************** 
 
 
-# PRACTICE_instructions.present()
-
+practise(practise_block)
 
 
 #************NASAL PART********************
 
-target_stimuli(nasal_block)
+target_stimuli(nasal_block )
 
 #************TEMPORAL PART********************
 target_stimuli(temporal_block)
