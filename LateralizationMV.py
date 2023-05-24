@@ -26,7 +26,7 @@ MAX_RESPONSE_DELAY = 1700 # TBC
 WHITE = (255, 255, 255)
  
  
-TARGET_DISPLAY_DURATION = 350  #35 MS in the original paper
+TARGET_DISPLAY_DURATION = 200  #35 MS in the original paper
  
 
 LEFT_RESPONSE_KEY = misc.constants.K_f
@@ -40,11 +40,13 @@ exp = design.Experiment(name="Contra & Inspilateral Reaction Times", text_size=4
 control.set_develop_mode(on=True)
 control.initialize(exp)
 
-print(exp.screen.window_size)
+# User to Check their screen dimensions, uncomment
+#print(exp.screen.window_size)
 
 cross_white = stimuli.FixCross(size=(20, 20), colour=WHITE, line_width=4)
 
 #************************************DIMENSIONS***********************************************
+
 #Expyriment Dimensions : 34cm (800 x 600) 
 # 34:800 --> 1:23.53
 
@@ -52,13 +54,12 @@ horiz_screen_dim = 34
 horiz_sreen_res=exp.screen.window_size[0]
 cm_to_pix = horiz_sreen_res/horiz_screen_dim
 
-# 30 centimentres from screen 
+# Participant to be 30 centimentres from screen 
 
 def deg_to_rad(x):
     return (x/180)*math.pi
 
  
-
 
 #*****Temporal Degrees******
 fivedeg_T =30*math.tan(deg_to_rad(5))*cm_to_pix
@@ -166,7 +167,7 @@ exp.add_data_variable_names(['trial', 'wait', 'respkey', 'RT'])
 ########################################
 control.start(skip_ready_screen=True)
 instructions.present()
-exp.keyboard.wait(keys=[misc.constants.K_t, misc.constants.K_SPACE])
+exp.keyboard.wait(keys=[misc.constants.K_f, misc.constants.K_j, misc.constants.K_SPACE])
 
 
 
@@ -185,7 +186,6 @@ def target_stimuli(block_condition, instructions):
         cross_white.present()
         waiting_time = random.randint(MIN_WAIT_TIME, MAX_WAIT_TIME)
         exp.clock.wait(waiting_time)
-        print(stim)
         stim.present()
         exp.clock.wait(TARGET_DISPLAY_DURATION)
         #blankscreen.present()
@@ -228,6 +228,8 @@ target_stimuli(temporal_block, RHShandinstructions)
 
 target_stimuli(temporal_block, LHShandinstructions)
 
+
+#TO DO: randomize/ 
 
 
 
